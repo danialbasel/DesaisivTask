@@ -1,0 +1,8 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    /* background: lightblue; */
+    padding: 40px;
+    gap: 24px;
+}
