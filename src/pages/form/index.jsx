@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm, Controller } from "react-hook-form"
-import Styles from './login.module.css';
+import Styles from './form.module.css';
 
 const FormPage = () => {
     const { control, handleSubmit, formState: { errors } } = useForm();

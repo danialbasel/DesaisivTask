@@ -2,7 +2,7 @@ import axios from 'axios';
 import Auth from './auth';
 
 const api = axios.create({
-    baseURL: 'ff',
+    baseURL: 'https://random-data-api.com/api/v2/',
 });
 
 api.interceptors.request.use(
@@ -24,7 +24,7 @@ api.interceptors.response.use((response) => {
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true;
-        const access_token = await Auth.refreshToken();
+        const access_token = await Auth.RefreshAccessToken();
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
         return api(originalRequest);
     }
