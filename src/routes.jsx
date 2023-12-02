@@ -4,26 +4,29 @@ import Login from './pages/login/index';
 import FormPage from './pages/form/index';
 import DynamicForm from './pages/dynamicForm/index';
 import DataTable from './pages/dataTable/index';
+import { AuthContext } from './App';
+import { useContext } from 'react';
 
-//export const RequireAuth = () => {
-//    let location = useLocation();
+export const RequireAuth = () => {
+    let location = useLocation();
+    const { setAuthenticated } = useContext(AuthContext);
 
-//    if (!localStorage.getItem("access_token") && !sessionStorage.getItem("access_token")) {
-//        return <Navigate to="/login" state={{ from: location }} />;
-//    }
+    if (!localStorage.getItem("access_token") && !sessionStorage.getItem("access_token")) {
+        return <Navigate to="/login" state={{ from: location }} />;
+    }
+    setAuthenticated(true);
+    return <Outlet />;
+}
 
-//    return <Outlet />;
-//}
+export const AuthPages = () => {
+    let location = useLocation();
 
-//export const AuthPages = () => {
-//    let location = useLocation();
+    if (localStorage.getItem("access_token") || sessionStorage.getItem("access_token")) {
+        return <Navigate to="/formPage" state={{ from: location }} />;
+    }
 
-//    if (localStorage.getItem("accessToken") || sessionStorage.getItem("access_token")) {
-//        return <Navigate to="/dataTable" state={{ from: location }} />;
-//    }
-
-//    return <Outlet />;
-//}
+    return <Outlet />;
+}
 
 const routes = [
     {

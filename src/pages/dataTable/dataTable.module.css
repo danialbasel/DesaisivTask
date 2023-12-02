@@ -1,14 +1,15 @@
-table {
-    border: 1px solid lightgray;
+table, th, td {
+    border: 1px solid grey;
+    border-collapse: collapse;
 }
 
 tbody {
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid grey;
 }
 
 th {
-    border-bottom: 1px solid lightgray;
-    border-right: 1px solid lightgray;
+    border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
     padding: 2px 4px;
 }
 
@@ -19,3 +20,38 @@ tfoot {
     tfoot th {
         font-weight: normal;
     }
+
+td{
+    padding: 5px;
+}
+
+.tableWrapper {
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+    flex-direction: column;
+}
+.height2 {
+    height: 0.5rem;
+}
+.buttonsGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.buttons {
+    border: 1px;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+}
+.pageGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.pageInput {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: 4rem;
+}

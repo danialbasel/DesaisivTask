@@ -2,7 +2,18 @@
     display: flex;
     flex-direction: column;
     width: 500px;
-    /* background: lightblue; */
-    padding: 40px;
+    border: 2px solid grey;
+    padding: 80px;
     gap: 24px;
+    border-radius: 20px;
+}
+
+.fromWrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 120px;
+}
+
+.formHeader {
+    text-align: center;
 }

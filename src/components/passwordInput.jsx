@@ -4,11 +4,15 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const PasswordInput = ({ label, name, field }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [value, setValue] = useState(null);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-
+    const handleChange = (e) => {
+        debugger
+        setValue(e.target.value);
+    }
     return (
 
         <FormControl variant="outlined">
@@ -29,6 +33,8 @@ const PasswordInput = ({ label, name, field }) => {
                     </InputAdornment>
                 }
                 label={label}
+                value={value}
+                onChange={handleChange}
                 {...field}
             />
         </FormControl>

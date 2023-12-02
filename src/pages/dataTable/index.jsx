@@ -1,5 +1,5 @@
-import { useState, useMemo, useReducer, useEffect } from 'react';
-import './dataTable.module.css'
+import { useState, useMemo, useEffect } from 'react';
+import Styles from './dataTable.module.css';
 import {
     useReactTable,
     getCoreRowModel,
@@ -8,11 +8,9 @@ import {
     flexRender,
 } from '@tanstack/react-table'
 import TableService from '../../services/table';
-
+import { Button } from '@mui/material';
 
 const DataTable = () => {
-    const rerender = useReducer(() => ({}), {})[1]
-
     const columns = useMemo(
         () => [
             {
@@ -70,9 +68,12 @@ const DataTable = () => {
     const [data, setData] = useState(() => [])
 
 
-    const refreshData = async () => {
-        const rows = [...(await TableService.GetRows())];
-        setData(() => [...rows])
+    const loadMoreData = async () => {
+        const params = {
+            size: 10
+        };
+        const moreData = await TableService.LoadMore(params);
+        setData(() => [...data, ...moreData])
     }
     useEffect(() => {
         const params = {
@@ -83,22 +84,18 @@ const DataTable = () => {
         })
     }, [])
     return (
-        <>
+        <div className={Styles.tableWrapper} >
             <Table
                 {...{
                     data,
                     columns,
-                    setData
                 }}
             />
             <hr />
             <div>
-                <button onClick={() => rerender()}>Force Rerender</button>
+                <Button onClick={() => loadMoreData()} variant="contained">Load More Data</Button>
             </div>
-            <div>
-                <button onClick={() => refreshData()}>Refresh Data</button>
-            </div>
-        </>
+        </div>
     )
 }
 
@@ -107,7 +104,6 @@ const DataTable = () => {
 const Table = ({
     data,
     columns,
-    setData,
 }) => {
     const table = useReactTable({
         data,
@@ -119,19 +115,8 @@ const Table = ({
     })
     useEffect(() => table.setPageCount(10), [])
 
-    const handlePageSizeChange = async (e) => {
+    const handlePageSizeChange = (e) => {
         const target = Number(e.target.value);
-        const currentPage = table.getState().pagination.pageIndex + 1;
-        const currentPageSize = table.getState().pagination.pageSize;
-        const sizeDiff = e.target.value - currentPageSize;
-        if (sizeDiff > 0 && data?.length < (target * currentPage) && (target * currentPage) <= 100) {
-            const size = Math.min(sizeDiff * currentPage, 90);
-            const params = {
-                size
-            };
-            const moreData = await TableService.LoadMore(params);
-            setData([...data, ...moreData]);
-        }
         table.setPageSize(target)
     }
     return (
@@ -182,44 +167,44 @@ const Table = ({
                     })}
                 </tbody>
             </table>
-            <div className="h-2" />
-            <div className="flex items-center gap-2">
+            <div className={Styles.height2} />
+            <div className={Styles.buttonsGroup}>
                 <button
-                    className="border rounded p-1"
+                    className={Styles.buttons}
                     onClick={() => table.setPageIndex(0)}
                     disabled={!table.getCanPreviousPage()}
                 >
                     {'<<'}
                 </button>
                 <button
-                    className="border rounded p-1"
+                    className={Styles.buttons}
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
                     {'<'}
                 </button>
                 <button
-                    className="border rounded p-1"
+                    className={Styles.buttons}
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
                     {'>'}
                 </button>
                 <button
-                    className="border rounded p-1"
+                    className={Styles.buttons}
                     onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                     disabled={!table.getCanNextPage()}
                 >
                     {'>>'}
                 </button>
-                <span className="flex items-center gap-1">
+                <span className={Styles.pageGroup} >
                     <div>Page</div>
                     <strong>
                         {table.getState().pagination.pageIndex + 1} of{' '}
                         {table.getPageCount()}
                     </strong>
                 </span>
-                <span className="flex items-center gap-1">
+                <span className={Styles.pageGroup}>
                     | Go to page:
                     <input
                         type="number"
@@ -229,7 +214,7 @@ const Table = ({
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             table.setPageIndex(page)
                         }}
-                        className="border p-1 rounded w-16"
+                        className={Styles.pageInput}
                     />
                 </span>
                 <select
@@ -244,7 +229,6 @@ const Table = ({
                 </select>
             </div>
             <div>{table.getRowModel().rows.length} Rows</div>
-            <pre>{JSON.stringify(table.getState().pagination, null, 2)}</pre>
         </div>
     )
 }
