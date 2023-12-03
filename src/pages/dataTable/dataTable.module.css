@@ -1,15 +1,21 @@
-table, th, td {
-    border: 1px solid grey;
-    border-collapse: collapse;
+.tableWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+table {
+    border: 1px solid lightgray;
 }
 
 tbody {
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid lightgray;
 }
 
 th {
-    border-bottom: 1px solid grey;
-    border-right: 1px solid grey;
+    border-bottom: 1px solid lightgray;
+    border-right: 1px solid lightgray;
     padding: 2px 4px;
 }
 
@@ -21,37 +27,10 @@ tfoot {
         font-weight: normal;
     }
 
-td{
-    padding: 5px;
-}
-
-.tableWrapper {
-    display: flex;
-    align-items: center;
-    padding-top: 60px;
-    flex-direction: column;
-}
-.height2 {
-    height: 0.5rem;
-}
-.buttonsGroup {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.buttons {
-    border: 1px;
+.filerInput {
+    width: 9rem;
+    border-width: 1px;
     border-radius: 0.25rem;
-    padding: 0.25rem;
-}
-.pageGroup {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.pageInput {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    width: 4rem;
+    --tw-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+    box-shadow: var(--tw-ring-offset-shadow,0 0 transparent),var(--tw-ring-shadow,0 0 transparent),var(--tw-shadow);
 }

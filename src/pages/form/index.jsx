@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useForm, Controller } from "react-hook-form"
+
 import {
     InputLabel,
     FormControl,
@@ -11,18 +13,19 @@ import {
     FormHelperText,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useForm, Controller } from "react-hook-form"
+
 import Styles from './form.module.css';
 
 const FormPage = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const { control, handleSubmit, formState: { errors } } = useForm();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
     const onSubmit = (data) => alert(data);
 
     return (

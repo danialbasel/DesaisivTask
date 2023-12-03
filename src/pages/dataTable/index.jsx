@@ -1,17 +1,41 @@
-import { useState, useMemo, useEffect } from 'react';
-import Styles from './dataTable.module.css';
+import { useState, useMemo } from 'react';
+import { useLoaderData } from 'react-router-dom';
+
+import {
+    Button,
+    Box,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TablePagination,
+    InputBase,
+    Paper
+} from '@mui/material';
 import {
     useReactTable,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     flexRender,
-} from '@tanstack/react-table'
+} from '@tanstack/react-table';
+
 import TableService from '../../services/table';
-import { Button } from '@mui/material';
-import { useLoaderData } from 'react-router-dom';
+import TablePaginationActions from './actions';
+
+import Styles from './dataTable.module.css';
 
 const DataTable = () => {
+    const loaderData = useLoaderData()
+    const [data, setData] = useState(() => [...loaderData])
+
+    const AdrressFilter = (row, columnId, value) => {
+        const rowVale = `${row.getValue(columnId).city} ${row.getValue(columnId).country}`
+        return rowVale.toLowerCase().includes(value.toLowerCase())
+    }
+
     const columns = useMemo(
         () => [
             {
@@ -42,6 +66,7 @@ const DataTable = () => {
                         header: () => 'Address',
                         cell: info => `${info.getValue().city} ${info.getValue().country}`,
                         footer: props => props.column.id,
+                        filterFn: AdrressFilter
                     },
                     {
                         accessorKey: 'username',
@@ -66,9 +91,6 @@ const DataTable = () => {
         ],
         []
     )
-    const loaderData = useLoaderData()
-    const [data, setData] = useState(() => [...loaderData])
-
 
     const loadMoreData = async () => {
         const params = {
@@ -77,9 +99,10 @@ const DataTable = () => {
         const moreData = await TableService.LoadMore(params);
         setData(() => [...data, ...moreData])
     }
+
     return (
         <div className={Styles.tableWrapper} >
-            <Table
+            <TableDetails
                 {...{
                     data,
                     columns,
@@ -93,9 +116,7 @@ const DataTable = () => {
     )
 }
 
-
-
-const Table = ({
+const TableDetails = ({
     data,
     columns,
 }) => {
@@ -105,173 +126,94 @@ const Table = ({
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        debugTable: true,
     })
-    useEffect(() => table.setPageCount(10), [])
 
-    const handlePageSizeChange = (e) => {
-        const target = Number(e.target.value);
-        table.setPageSize(target)
-    }
+    const { pageSize, pageIndex } = table.getState().pagination
+
     return (
-        <div className="p-2">
-            <div className="h-2" />
-            <table>
-                <thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => {
-                                return (
-                                    <th key={header.id} colSpan={header.colSpan}>
-                                        {header.isPlaceholder ? null : (
-                                            <div>
-                                                {flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                                {header.column.getCanFilter() ? (
-                                                    <div>
-                                                        <Filter column={header.column} table={table} />
-                                                    </div>
-                                                ) : null}
-                                            </div>
-                                        )}
-                                    </th>
-                                )
-                            })}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => {
-                        return (
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => {
+        <Box sx={{ width: '70%' }}>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map(header => {
                                     return (
-                                        <td key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
+                                        <TableCell key={header.id} colSpan={header.colSpan}>
+                                            {header.isPlaceholder ? null : (
+                                                <div>
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                    {header.column.getCanFilter() ? (
+                                                        <div>
+                                                            <Filter column={header.column} />
+                                                        </div>
+                                                    ) : null}
+                                                </div>
                                             )}
-                                        </td>
+                                        </TableCell>
                                     )
                                 })}
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-            <div className={Styles.height2} />
-            <div className={Styles.buttonsGroup}>
-                <button
-                    className={Styles.buttons}
-                    onClick={() => table.setPageIndex(0)}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    {'<<'}
-                </button>
-                <button
-                    className={Styles.buttons}
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    {'<'}
-                </button>
-                <button
-                    className={Styles.buttons}
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    {'>'}
-                </button>
-                <button
-                    className={Styles.buttons}
-                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                    disabled={!table.getCanNextPage()}
-                >
-                    {'>>'}
-                </button>
-                <span className={Styles.pageGroup} >
-                    <div>Page</div>
-                    <strong>
-                        {table.getState().pagination.pageIndex + 1} of{' '}
-                        {table.getPageCount()}
-                    </strong>
-                </span>
-                <span className={Styles.pageGroup}>
-                    | Go to page:
-                    <input
-                        type="number"
-                        min='1'
-                        defaultValue={table.getState().pagination.pageIndex + 1}
-                        onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            table.setPageIndex(page)
-                        }}
-                        className={Styles.pageInput}
-                    />
-                </span>
-                <select
-                    value={table.getState().pagination.pageSize}
-                    onChange={handlePageSizeChange}
-                >
-                    {[10, 20, 30, 40, 50].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div>{table.getRowModel().rows.length} Rows</div>
-        </div>
+                            </TableRow>
+                        ))}
+                    </TableHead>
+                    <TableBody>
+                        {table.getRowModel().rows.map(row => {
+                            return (
+                                <TableRow key={row.id}>
+                                    {row.getVisibleCells().map(cell => {
+                                        return (
+                                            <TableCell key={cell.id}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        )
+                                    })}
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
+                component="div"
+                count={table.getFilteredRowModel().rows.length}
+                rowsPerPage={pageSize}
+                page={pageIndex}
+                SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                }}
+                onPageChange={(_, page) => {
+                    table.setPageIndex(page)
+                }}
+                onRowsPerPageChange={e => {
+                    const size = e.target.value ? Number(e.target.value) : 10
+                    table.setPageSize(size)
+                }}
+                ActionsComponent={TablePaginationActions}
+            />
+        </Box>
     )
 }
 function Filter({
     column,
-    table,
 }) {
-    const firstValue = table
-        .getPreFilteredRowModel()
-        .flatRows[0]?.getValue(column.id)
-
     const columnFilterValue = column.getFilterValue()
 
-    return typeof firstValue === 'number' ? (
-        <div className="flex space-x-2">
-            <input
-                type="number"
-                value={(columnFilterValue)?.[0] ?? ''}
-                onChange={e =>
-                    column.setFilterValue((old) => [
-                        e.target.value,
-                        old?.[1],
-                    ])
-                }
-                placeholder={`Min`}
-                className="w-24 border shadow rounded"
-            />
-            <input
-                type="number"
-                value={(columnFilterValue)?.[1] ?? ''}
-                onChange={e =>
-                    column.setFilterValue((old) => [
-                        old?.[0],
-                        e.target.value,
-                    ])
-                }
-                placeholder={`Max`}
-                className="w-24 border shadow rounded"
-            />
-        </div>
-    ) : (
-        <input
-            type="text"
-            value={(columnFilterValue ?? '')}
-            onChange={e => column.setFilterValue(e.target.value)}
-            placeholder={`Search...`}
-            className="w-36 border shadow rounded"
-        />
-    )
+    return <InputBase
+        value={(columnFilterValue ?? '')}
+        onChange={e => column.setFilterValue(e.target.value)}
+        placeholder={`Search...`}
+        className={Styles.filerInput}
+        inputProps={{ 'aria-label': 'search' }}
+    />
+
 }
 
 export default DataTable;

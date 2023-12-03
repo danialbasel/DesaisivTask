@@ -1,4 +1,9 @@
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { AuthContext } from '../App';
+import { NavigateTo } from '../routes';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,15 +14,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from "react-router-dom";
+
 import Auth from '../services/auth';
-import { AuthContext } from '../App';
-import { NavigateTo } from '../routes'
+
+
 const pages = ['Form', 'Data Table', 'Dynamic Form'];
 
 const Header = () => {
-    const { authenticated, setAuthenticated } = useContext(AuthContext);
     const [anchorElNav, setAnchorElNav] = useState(null);
+    const { authenticated, setAuthenticated } = useContext(AuthContext);
     const Navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
@@ -29,7 +34,7 @@ const Header = () => {
 
         switch (page) {
             case 'Form':
-                NavigateTo(Navigate,'/formPage')
+                NavigateTo(Navigate, '/formPage')
                 break;
             case 'Data Table':
                 NavigateTo(Navigate, '/dataTable')
@@ -42,7 +47,7 @@ const Header = () => {
 
     const signOut = () => {
         Auth.SignOut();
-        NavigateTo(Navigate,'/login');
+        NavigateTo(Navigate, '/login');
         setAuthenticated(false);
     }
     return (

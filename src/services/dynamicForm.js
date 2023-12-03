@@ -5,7 +5,7 @@ const DynamicFormService = {
         return new Promise((resolve, reject) => {
             setTimeout( () => {
                 resolve(Forms);
-            }, 3000);
+            }, 2000);
         });
     },
 }

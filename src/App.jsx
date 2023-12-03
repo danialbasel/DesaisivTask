@@ -1,10 +1,13 @@
-import './App.css'
-import { useLocation, Navigate, createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import routes, { RequireAuth, AuthPages } from "./routes";
-import Header from './components/header';
 import { createContext, useEffect, useState } from 'react';
-import Login from './pages/login/index';
+import { useLocation, Navigate, createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+
 import Nprogress from 'nprogress';
+
+import routes, { RequireAuth, AuthPages } from './routes';
+import Header from './components/header';
+import Login from './pages/login/index';
+
+import './App.css'
 
 export const AuthContext = createContext({
     authenticated: false,
@@ -13,8 +16,9 @@ export const AuthContext = createContext({
 
 const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
+
     const Layout = () => {
-        let location = useLocation();
+        const location = useLocation();
 
         useEffect(() => {
             Nprogress.done(false);

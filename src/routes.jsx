@@ -1,16 +1,19 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useContext } from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { AuthContext } from './App';
+
+import Nprogress from 'nprogress';
+
 import Login from './pages/login/index';
 import FormPage from './pages/form/index';
 import DynamicForm from './pages/dynamicForm/index';
 import DataTable from './pages/dataTable/index';
-import { AuthContext } from './App';
-import { useContext } from 'react';
+
 import TableService from "./services/table";
-import Nprogress from 'nprogress';
-import DynamicFormService from "./services/dynamicForm";
+import DynamicFormService from './services/dynamicForm';
 
 export const RequireAuth = () => {
-    let location = useLocation();
+    const location = useLocation();
     const { setAuthenticated } = useContext(AuthContext);
 
     if (!localStorage.getItem("access_token") && !sessionStorage.getItem("access_token")) {
@@ -21,7 +24,7 @@ export const RequireAuth = () => {
 }
 
 export const AuthPages = () => {
-    let location = useLocation();
+    const location = useLocation();
     if (localStorage.getItem("access_token") || sessionStorage.getItem("access_token")) {
         return <Navigate to="/formPage" state={{ from: location }} />;
     }

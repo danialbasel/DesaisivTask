@@ -2,8 +2,12 @@ body {
     margin: 0;
     padding: 0;
     background: #ecf6fb;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .logo{
     width: 30px;
     height: 30px;
+}
+#nprogress .bar {
+    background: black !important;
 }

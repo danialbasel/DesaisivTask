@@ -1,10 +1,13 @@
+import { useForm, Controller, FormProvider, useFormContext } from 'react-hook-form';
+import { useLoaderData } from 'react-router-dom';
+
 import { Button } from '@mui/material';
-import { useForm, Controller, FormProvider, useFormContext } from "react-hook-form";
+
 import PasswordInput from '../../components/passwordInput';
 import Input from '../../components/input';
 import SelectInput from '../../components/selectInput';
+
 import Styles from './dynamicForm.module.css';
-import { useLoaderData } from 'react-router-dom';
 
 const ConnectForm = ({ children }) => {
     const methods = useFormContext();
@@ -37,7 +40,7 @@ const DynamicForm = () => {
                                 input = (field) => { return <SelectInput field={field} {...item} /> }
                                 break;
                             default:
-                                return <p key={index}>Invalid Type</p>
+                                return <p key={index}>Invalid Input Type</p>
                         }
                         return (
                             <ConnectForm key={item.name} >

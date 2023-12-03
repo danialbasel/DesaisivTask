@@ -1,18 +1,31 @@
 import { useState, useContext } from 'react';
-import { InputLabel, FormControl, InputAdornment, IconButton, OutlinedInput, Checkbox, Button, FormControlLabel } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm, Controller } from "react-hook-form"
-import Styles from './login.module.css';
+import { useNavigate } from 'react-router-dom';
+
+import {
+    InputLabel,
+    FormControl,
+    InputAdornment,
+    IconButton,
+    OutlinedInput,
+    Checkbox,
+    Button,
+    FormControlLabel
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 import Auth from '../../services/auth';
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../App';
 import { NavigateTo } from '../../routes';
 
+import Styles from './login.module.css';
+
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
     const { setAuthenticated } = useContext(AuthContext);
     const { control, handleSubmit } = useForm();
-    const [showPassword, setShowPassword] = useState(false);
     const Navigate = useNavigate();
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
@@ -26,6 +39,7 @@ const Login = () => {
             alert(err)
         })
     }
+
     return (
         <div className={Styles.fromWrapper} >
             <form className={Styles.form} onSubmit={handleSubmit(onSubmit)}>

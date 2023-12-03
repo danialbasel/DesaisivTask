@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { InputLabel, FormControl, InputAdornment, IconButton, OutlinedInput } from '@mui/material';
+
+import {
+    InputLabel,
+    FormControl,
+    InputAdornment,
+    IconButton,
+    OutlinedInput
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const PasswordInput = ({ label, name, field }) => {
@@ -9,10 +16,11 @@ const PasswordInput = ({ label, name, field }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
     const handleChange = (e) => {
-        debugger
         setValue(e.target.value);
-    }
+    };
+
     return (
 
         <FormControl variant="outlined">
