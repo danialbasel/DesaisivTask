@@ -16,6 +16,7 @@
     "@mui/material": "^5.14.19",
     "@tanstack/react-table": "^8.10.7",
     "axios": "^1.6.2",
+    "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
@@ -29,6 +30,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "json-loader": "^0.5.7",
     "vite": "^5.0.0"
   }
 }

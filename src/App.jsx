@@ -1,8 +1,10 @@
 import './App.css'
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useLocation, Navigate, createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import routes, { RequireAuth, AuthPages } from "./routes";
 import Header from './components/header';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import Login from './pages/login/index';
+import Nprogress from 'nprogress';
 
 export const AuthContext = createContext({
     authenticated: false,
@@ -10,34 +12,55 @@ export const AuthContext = createContext({
 });
 
 const App = () => {
-    const getRoutes = (allRoutes) =>
-        allRoutes.map((route) => {
-            console.log(route)
-            if (route.route) {
-                if (route.private) {
-                    return <Route key={route.key} element={<RequireAuth />}>
-                        <Route exact path={route.route} element={route.component} />
-                    </Route>
-                }
-                if (route.isAuthPage) {
-                    return <Route key={route.key} element={<AuthPages />}>
-                        <Route exact path={route.route} element={route.component} />
-                    </Route>
-                }
-                return <Route exact path={route.route} element={route.component} key={route.key} />;
-            }
-
-            return null;
-        });
     const [authenticated, setAuthenticated] = useState(false);
+    const Layout = () => {
+        let location = useLocation();
+
+        useEffect(() => {
+            Nprogress.done(false);
+
+        }, [location])
+        return (
+            <>
+                <Header />
+                <Outlet />
+            </>
+        );
+    }
+
+    const router = createBrowserRouter([
+        {
+            element: <Layout />,
+            children: [
+                {
+                    element: <Navigate to="/Login" />,
+                    path: '*'
+                },
+                {
+                    element: <AuthPages />,
+                    children: [
+                        {
+                            path: '/login',
+                            element: <Login />
+                        }]
+                },
+                {
+                    element: <RequireAuth />,
+                    children: [...(routes.map((route) => {
+                        return {
+                            path: route.route,
+                            element: route.component,
+                            loader: route.loader
+                        }
+                    }))]
+                }
+            ]
+        }
+    ])
 
     return (
         <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
-            <Header />
-            <Routes>
-                {getRoutes(routes)}
-                <Route path="*" element={<Navigate to="/Login" />} />
-            </Routes>
+            <RouterProvider router={router} />
         </AuthContext.Provider>
     )
 }

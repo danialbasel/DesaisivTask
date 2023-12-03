@@ -4,37 +4,7 @@ import PasswordInput from '../../components/passwordInput';
 import Input from '../../components/input';
 import SelectInput from '../../components/selectInput';
 import Styles from './dynamicForm.module.css';
-
-const forms = [{
-    name: 'password',
-    type: 'password',
-    label: 'password test',
-    required: false,
-},
-{
-    name: 'text',
-    type: 'text',
-    label: 'text test',
-    required: false,
-},
-{
-    name: 'number',
-    type: 'number',
-    label: 'number test',
-    required: false,
-},
-{
-    name: 'date',
-    type: 'date',
-    label: '',
-    required: false,
-},
-{
-    name: 'select',
-    type: 'select',
-    label: 'select test',
-    items: [{ value: 1, label: 'item1' }, { value: 2, label: 'item2' }, { value: 3, label: 'item3' }],
-}]
+import { useLoaderData } from 'react-router-dom';
 
 const ConnectForm = ({ children }) => {
     const methods = useFormContext();
@@ -44,15 +14,15 @@ const ConnectForm = ({ children }) => {
 const DynamicForm = () => {
     const { handleSubmit, control } = useForm();
     const methods = useForm();
+    const loaderData = useLoaderData()
 
-    const onSubmit = (data) => console.log(data)
-    console.count('counter')
+    const onSubmit = (data) => alert(JSON.stringify(data))
     return (
         <FormProvider {...methods}>
             <div className={Styles.fromWrapper} >
                 <form className={Styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={Styles.formHeader}>Dynamic Form</h1>
-                    {forms.map((item, index) => {
+                    {loaderData.map((item, index) => {
                         let input;
                         switch (item.type) {
                             case 'password':

@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
 import Auth from '../services/auth';
 import { AuthContext } from '../App';
-
+import { NavigateTo } from '../routes'
 const pages = ['Form', 'Data Table', 'Dynamic Form'];
 
 const Header = () => {
@@ -29,20 +29,20 @@ const Header = () => {
 
         switch (page) {
             case 'Form':
-                Navigate('/formPage')
+                NavigateTo(Navigate,'/formPage')
                 break;
             case 'Data Table':
-                Navigate('/dataTable')
+                NavigateTo(Navigate, '/dataTable')
                 break;
             case 'Dynamic Form':
-                Navigate('/dynamicForm')
+                NavigateTo(Navigate, '/dynamicForm')
                 break;
         }
     };
 
     const signOut = () => {
         Auth.SignOut();
-        Navigate('/login');
+        NavigateTo(Navigate,'/login');
         setAuthenticated(false);
     }
     return (

@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-table'
 import TableService from '../../services/table';
 import { Button } from '@mui/material';
+import { useLoaderData } from 'react-router-dom';
 
 const DataTable = () => {
     const columns = useMemo(
@@ -65,7 +66,8 @@ const DataTable = () => {
         ],
         []
     )
-    const [data, setData] = useState(() => [])
+    const loaderData = useLoaderData()
+    const [data, setData] = useState(() => [...loaderData])
 
 
     const loadMoreData = async () => {
@@ -75,14 +77,6 @@ const DataTable = () => {
         const moreData = await TableService.LoadMore(params);
         setData(() => [...data, ...moreData])
     }
-    useEffect(() => {
-        const params = {
-            size: 10
-        };
-        TableService.GetRows(params).then(rows => {
-            setData(() => [...rows]);
-        })
-    }, [])
     return (
         <div className={Styles.tableWrapper} >
             <Table

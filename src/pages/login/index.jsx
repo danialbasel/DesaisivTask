@@ -6,6 +6,7 @@ import Styles from './login.module.css';
 import Auth from '../../services/auth';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../App';
+import { NavigateTo } from '../../routes';
 
 const Login = () => {
     const { setAuthenticated } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const Login = () => {
     const onSubmit = (data) => {
         Auth.SignIn(data).then(() => {
             setAuthenticated(true);
-            Navigate('/dataTable')
+            NavigateTo(Navigate, '/formPage');
         }).catch(err => {
             alert(err)
         })

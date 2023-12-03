@@ -1,0 +1,45 @@
+[
+  {
+    "name": "password",
+    "type": "password",
+    "label": "password test",
+    "required": false
+  },
+  {
+    "name": "text",
+    "type": "text",
+    "label": "text test",
+    "required": false
+  },
+  {
+    "name": "number",
+    "type": "number",
+    "label": "number test",
+    "required": false
+  },
+  {
+    "name": "date",
+    "type": "date",
+    "label": "",
+    "required": false
+  },
+  {
+    "name": "select",
+    "type": "select",
+    "label": "select test",
+    "items": [
+      {
+        "value": 1,
+        "label": "item1"
+      },
+      {
+        "value": 2,
+        "label": "item2"
+      },
+      {
+        "value": 3,
+        "label": "item3"
+      }
+    ]
+  }
+]
