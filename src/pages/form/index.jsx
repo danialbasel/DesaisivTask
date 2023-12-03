@@ -26,7 +26,7 @@ const FormPage = () => {
         event.preventDefault();
     };
 
-    const onSubmit = (data) => alert(data);
+    const onSubmit = (data) => alert(JSON.stringify(data));
 
     return (
         <div className={Styles.fromWrapper} >
@@ -126,11 +126,11 @@ const FormPage = () => {
                     control={control}
                     rules={{ required: 'Gender is required' }}
                     render={({ field }) => <FormControl>
-                        <InputLabel htmlFor="gender">Gender *</InputLabel>
+                        <InputLabel htmlFor="gender">Gender</InputLabel>
                         <Select
                             id="gender"
                             value=''
-                            label="Gender *"
+                            label="Gender"
                             error={errors.gender}
                             {...field}
                         >
@@ -140,7 +140,6 @@ const FormPage = () => {
                             <MenuItem value='M'>Male</MenuItem>
                             <MenuItem value='F'>Female</MenuItem>
                         </Select>
-                        <FormHelperText>Required</FormHelperText>
                     </FormControl>}
                 />
                 {errors.gender && <p role="alert">{errors.gender.message}</p>}

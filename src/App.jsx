@@ -1,7 +1,9 @@
 import { createContext, useEffect, useState } from 'react';
 import { useLocation, Navigate, createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-
 import Nprogress from 'nprogress';
+
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import routes, { RequireAuth, AuthPages } from './routes';
 import Header from './components/header';
@@ -11,11 +13,17 @@ import './App.css'
 
 export const AuthContext = createContext({
     authenticated: false,
-    setAuthenticated: (auth) => { }
+    setAuthenticated: (auth) => { },
+    showError: false,
+    setShowError: (flag) => { },
+    errorMsg: '',
+    setErrorMsg: (msg) => { },
 });
 
 const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const Layout = () => {
         const location = useLocation();
@@ -27,7 +35,12 @@ const App = () => {
         return (
             <>
                 <Header />
+                {showError && <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                    <b>{errorMsg}</b>
+                </Alert>}
                 <Outlet />
+                
             </>
         );
     }
@@ -61,9 +74,16 @@ const App = () => {
             ]
         }
     ])
-
+    const data = {
+        authenticated,
+        setAuthenticated,
+        showError,
+        setShowError,
+        errorMsg,
+        setErrorMsg,
+    }
     return (
-        <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
+        <AuthContext.Provider value={data}>
             <RouterProvider router={router} />
         </AuthContext.Provider>
     )

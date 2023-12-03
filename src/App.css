@@ -11,3 +11,11 @@ body {
 #nprogress .bar {
     background: black !important;
 }
+
+p[role=alert] {
+    margin: 0;
+    padding: 0;
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: -16px;
+}

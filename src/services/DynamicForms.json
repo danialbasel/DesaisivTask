@@ -3,7 +3,7 @@
     "name": "password",
     "type": "password",
     "label": "password test",
-    "required": false
+    "required": "Required"
   },
   {
     "name": "text",
@@ -27,6 +27,7 @@
     "name": "select",
     "type": "select",
     "label": "select test",
+    "required": true,
     "items": [
       {
         "value": 1,

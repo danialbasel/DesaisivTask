@@ -1,9 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AuthContext } from '../App';
-import { NavigateTo } from '../routes';
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +12,8 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
+import { AuthContext } from '../App';
+import { NavigateTo } from '../routes';
 import Auth from '../services/auth';
 
 
@@ -50,6 +49,7 @@ const Header = () => {
         NavigateTo(Navigate, '/login');
         setAuthenticated(false);
     }
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">

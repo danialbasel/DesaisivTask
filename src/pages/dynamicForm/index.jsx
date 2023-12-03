@@ -15,11 +15,12 @@ const ConnectForm = ({ children }) => {
 }
 
 const DynamicForm = () => {
-    const { handleSubmit, control } = useForm();
+    const { handleSubmit, control, formState: { errors } } = useForm();
     const methods = useForm();
     const loaderData = useLoaderData()
-
+    
     const onSubmit = (data) => alert(JSON.stringify(data))
+
     return (
         <FormProvider {...methods}>
             <div className={Styles.fromWrapper} >
@@ -29,15 +30,15 @@ const DynamicForm = () => {
                         let input;
                         switch (item.type) {
                             case 'password':
-                                input = (field) => { return <PasswordInput field={field} {...item} /> }
+                                input = (field) => { return <PasswordInput errors={errors} field={field} {...item} /> }
                                 break;
                             case 'text':
                             case 'number':
                             case 'date':
-                                input = (field) => { return <Input field={field} {...item} /> }
+                                input = (field) => { return <Input errors={errors} field={field} {...item} /> }
                                 break;
                             case 'select':
-                                input = (field) => { return <SelectInput field={field} {...item} /> }
+                                input = (field) => { return <SelectInput errors={errors} field={field} {...item} /> }
                                 break;
                             default:
                                 return <p key={index}>Invalid Input Type</p>

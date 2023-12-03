@@ -22,7 +22,7 @@ import Styles from './login.module.css';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { setAuthenticated } = useContext(AuthContext);
+    const { setAuthenticated,setShowError,setErrorMsg } = useContext(AuthContext);
     const { control, handleSubmit } = useForm();
     const Navigate = useNavigate();
 
@@ -33,10 +33,12 @@ const Login = () => {
     };
     const onSubmit = (data) => {
         Auth.SignIn(data).then(() => {
+            setShowError(false);
             setAuthenticated(true);
             NavigateTo(Navigate, '/form_page');
         }).catch(err => {
-            alert(err)
+            setShowError(true);
+            setErrorMsg("Something went wrong !!");
         })
     }
 
