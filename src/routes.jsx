@@ -26,7 +26,7 @@ export const RequireAuth = () => {
 export const AuthPages = () => {
     const location = useLocation();
     if (localStorage.getItem("access_token") || sessionStorage.getItem("access_token")) {
-        return <Navigate to="/formPage" state={{ from: location }} />;
+        return <Navigate to="/form_page" state={{ from: location }} />;
     }
 
     return <Outlet />;
@@ -50,36 +50,22 @@ export const NavigateTo = (Navigate, path) => {
 
 const routes = [
     {
-        name: "Login",
-        key: "login",
         route: "/login",
         component: <Login />,
         private: false,
-        isAuthPage: true,
     },
     {
-        name: "FormPage",
-        key: "formPage",
-        route: "/formPage",
+        route: "/form_page",
         component: <FormPage />,
         private: true,
-        isAuthPage: false,
     }, {
-        name: "DynamicForm",
-        key: "dynamicForm",
-        route: "/dynamicForm",
+        route: "/dynamic_form",
         loader: dynamicFormLoader,
         component: <DynamicForm />,
-        private: true,
-        isAuthPage: false,
     }, {
-        name: "DataTable",
-        key: "dataTable",
-        route: "/dataTable",
+        route: "/data_table",
         loader: tableLoader,
         component: <DataTable />,
-        private: true,
-        isAuthPage: false,
     },
 ];
 

@@ -37,7 +37,7 @@ const App = () => {
             element: <Layout />,
             children: [
                 {
-                    element: <Navigate to="/Login" />,
+                    element: <Navigate to="/login" />,
                     path: '*'
                 },
                 {

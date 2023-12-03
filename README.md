@@ -34,3 +34,12 @@ For authorization use **john@mail.com** for email and **changeme** for password
 + [React Table](https://tanstack.com/table/v8/docs/examples/react/basic) used to manage table.
 + [Axios](https://axios-http.com/docs/intro) used to manage http calls.
 + [NProgress](https://www.npmjs.com/package/nprogress) used for loader.
+ 
+## Project Overview
+
+For dynamic forms you should edit DynamicForms.json available types [password,text,number,date,select]
+**Date type** shouldn't have label and **Select type** must provide items
+
+For form page it has simple validations applied to it such as required,invalid
+
+For date table it has load more functionality along with search and pagination

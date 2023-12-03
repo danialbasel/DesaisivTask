@@ -34,13 +34,13 @@ const Header = () => {
 
         switch (page) {
             case 'Form':
-                NavigateTo(Navigate, '/formPage')
+                NavigateTo(Navigate, '/form_page')
                 break;
             case 'Data Table':
-                NavigateTo(Navigate, '/dataTable')
+                NavigateTo(Navigate, '/data_table')
                 break;
             case 'Dynamic Form':
-                NavigateTo(Navigate, '/dynamicForm')
+                NavigateTo(Navigate, '/dynamic_form')
                 break;
         }
     };

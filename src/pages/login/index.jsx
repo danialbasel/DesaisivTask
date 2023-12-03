@@ -34,7 +34,7 @@ const Login = () => {
     const onSubmit = (data) => {
         Auth.SignIn(data).then(() => {
             setAuthenticated(true);
-            NavigateTo(Navigate, '/formPage');
+            NavigateTo(Navigate, '/form_page');
         }).catch(err => {
             alert(err)
         })
